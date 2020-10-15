@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log in</title>
+    <script src="javascripts/bootstrap.min.js"></script>
+    <script src="javascripts/jquery.min.js"></script>
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-6 m-auto">
+        <div class="p-5">
+            <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Welcome</h1>
+            </div>
+            <form name="myForm">
+                <div class="form-group">
+                    <input type="text" class="form-control form-control" id="username" aria-describedby="emailHelp" placeholder="Enter Username">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control form-control-user" id="password" placeholder="Password">
+                </div>
+                <a onclick="login()" class="btn btn-primary btn-block">
+                    Login
+                </a>
+                <hr>
+            </form>
+            <div class="text-center">
+                <a class="small" href="register.html">Register</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type = "text/javascript">
+    <!--
+    // Form validation code will come here.
+    function validate() {
+
+        if( document.myForm.username.value === "" ) {
+            alert( "Please provide your username!" );
+            document.myForm.username.focus() ;
+            return false;
+        }
+        if( document.myForm.password.value === "" ) {
+            alert( "Please provide your password!" );
+            document.myForm.password.focus() ;
+            return false;
+        }
+
+        return( true );
+    }
+    //-->
+
+    function login() {
+        if (validate()){
+            $.ajax({
+                url: "/users/login",
+                type: 'post',
+                data: {
+                    'username': $('#username').val(),
+                    'password': $('#password').val()
+                },
+                success: function (response) {
+                    alert('Log in Successful');
+                },
+                error: function (e) {
+                    alert(e);
+                }
+            });
+        }
+    }
+</script>
+
+</body>
+</html>
