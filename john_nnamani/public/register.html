@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log in</title>
+    <script src="javascripts/bootstrap.min.js"></script>
+    <script src="javascripts/jquery.min.js"></script>
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-6 m-auto">
+        <div class="p-5">
+            <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Welcome</h1>
+            </div>
+            <form name="myForm">
+                <div class="form-group">
+                    <input type="text" class="form-control form-control" id="username" aria-describedby="emailHelp" placeholder="Enter Username">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control form-control-user" id="password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-user" id="firstname" placeholder="First Name">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-user" id="lastname" placeholder="Last Name">
+                </div>
+                <a onclick="register()" class="btn btn-primary btn-block">
+                    Register
+                </a>
+                <hr>
+            </form>
+            <div class="text-center">
+                <a class="small" href="login.html">Log in</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type = "text/javascript">
+    <!--
+    // Form validation code will come here.
+    function validate() {
+
+        if( document.myForm.firstname.value === "" ) {
+            alert( "Please provide your first name!" );
+            document.myForm.firstname.focus() ;
+            return false;
+        }
+        if( document.myForm.lastname.value === "" ) {
+            alert( "Please provide your lastt name!" );
+            document.myForm.lastname.focus() ;
+            return false;
+        }
+        if( document.myForm.username.value === "" ) {
+            alert( "Please provide your username!" );
+            document.myForm.username.focus() ;
+            return false;
+        }
+        if( document.myForm.password.value === "" ) {
+            alert( "Please provide your password!" );
+            document.myForm.password.focus() ;
+            return false;
+        }
+
+        return( true );
+    }
+    //-->
+
+    function register() {
+        if (validate()){
+            $.ajax({
+                url: "/users/signup",
+                type: 'post',
+                data: {
+                    'username': $('#username').val(),
+                    'password': $('#password').val(),
+                    'firstname': $('#firstname').val(),
+                    'lastname': $('#lastname').val()
+                },
+                success: function (response) {
+                    alert('Registration Successful');
+                },
+                error: function (e) {
+                    alert(e);
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>
