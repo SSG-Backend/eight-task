@@ -1,0 +1,3 @@
+{
+  "mongoURI": "mongodb+srv://Olayinka:Frankenstein@cluster0.7seiw.mongodb.net/BookDirectory?retryWrites=true&w=majority"
+}

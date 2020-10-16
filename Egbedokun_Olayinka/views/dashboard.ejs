@@ -1,0 +1,110 @@
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body">
+      <h1 class="text-center mb-3">Dashboard</h1>
+      <p class="lead mb-4 mx-auto">Welcome <%= name %></p>
+
+      <%- include('partials/messages.ejs') %>
+
+      <div class="row">
+        <% books.forEach((book, index) => { %>
+        <div class="col-sm-6 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Book name: <%= book.name %></h5>
+              <p class="card-text">Author: <%= book.author %></p>
+              <p class="card-text">Creator: <%= book.creator.name %></p>
+              <a href="/books/<%= book._id %>" class="btn btn-block btn-primary"
+                >More...</a
+              >
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+
+      <button
+        class="btn btn-primary btn-block mt-3"
+        data-toggle="modal"
+        data-target="#formModal"
+      >
+        Post book
+      </button>
+      <a href="/users/logout" class="btn btn-secondary btn-block mt-3"
+        >Logout</a
+      >
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="formModal"
+        tabindex="-1"
+        aria-labelledby="formModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="formModalLabel">Post book</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/books" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                  <label for="email">Book name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="form-control"
+                    placeholder="Enter book name"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="password">Author</label>
+                  <input
+                    type="text"
+                    id="author"
+                    name="author"
+                    class="form-control"
+                    placeholder="Enter author name"
+                    required
+                  />
+                  <div class="form-group my-3">
+                    <label for="password">File</label>
+                    <input
+                      id="fileUpload"
+                      name="file"
+                      class="form-control dropzone"
+                      type='file'
+                      required
+                    />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                  Post
+                </button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
