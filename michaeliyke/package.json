@@ -1,0 +1,39 @@
+{
+  "name": "eight-task",
+  "version": "1.0.0",
+  "description": "Drag and Drop with DropzoneJS",
+  "main": "DnD.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "nodemon DnD && mongod",
+    "serve": "npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michaeliyke/eight-task.git"
+  },
+  "keywords": [
+    "Drag",
+    "and",
+    "Drop",
+    "DropzoneJs",
+    "File",
+    "Upload",
+    "NodeJS",
+    "upload"
+  ],
+  "author": "Michael C. Iyke",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/michaeliyke/eight-task/issues"
+  },
+  "homepage": "https://github.com/michaeliyke/eight-task#readme",
+  "dependencies": {
+    "connect-mongo": "^3.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.10.9",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.5"
+  }
+}
