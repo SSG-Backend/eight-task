@@ -1,0 +1,97 @@
+<div class="row mt-5">
+    <div class="col-md-6 m-auto">
+      <div class="card card-body">
+        <h1 class="text-center mb-3">
+          <i class="fa fa-book fa-3x"></i>
+          <p>BOOK UPLOAD</p>
+        </h1>
+        
+        <form role="form" enctype="multipart/form-data" method="POST" action="/book/upload" id="upload-widget">
+          <div class="form-group">
+            <label for="fieldIsbn">Isbn</label>
+            <input
+              type="text"
+              id="fieldIsbn"
+              name="isbn"
+              class="form-control"
+              placeholder="Enter Isbn"
+            />
+          </div>
+          <div class="form-group">
+            <label for="fieldTitle">Title</label>
+            <input
+              type="text"
+              id="fieldTitle"
+              name="title"
+              class="form-control"
+              placeholder="Enter Title"
+            />
+          </div>
+          <div class="form-group">
+            <label for="fieldCategory">Category</label>
+            <input
+              type="text"
+              id="fieldCategory"
+              name="category"
+              class="form-control"
+              placeholder="Enter Category"
+            />
+          </div>
+          <div class="form-group">
+            <label for="fieldAuthor">Author</label>
+            <input
+              type="text"
+              id="fieldAuthor"
+              name="author"
+              class="form-control"
+              placeholder="Enter Author"
+            />
+          </div>
+          <div class="form-group">
+            <label for="fieldPublisher">Publisher</label>
+            <input
+              type="text"
+              id="fieldPublisher"
+              name="publisher"
+              class="form-control"
+              placeholder="Enter Publisher"
+            />
+          </div>
+          <div class="form-group">
+            <label for="fieldPages">Pages</label>
+            <input
+              type="text"
+              id="fieldPages"
+              name="pages"
+              class="form-control"
+              placeholder="Enter Pages"
+            />
+          </div>
+          <div class="form-group">
+            <label for="fieldYear">Year</label>
+            <input
+              type="text"
+              id="fieldYear"
+              name="year"
+              class="form-control"
+              placeholder="Enter Year"
+            />
+          </div>
+
+          <div class="form-group">
+            <div class="dropzone" id="bookDropzone"></div>
+              <div class="dz-default dz-message"></div>
+            </div>
+          </div>
+          
+
+          <button type="submit" id="submit" class="btn btn-primary btn-block">
+            Upload
+          </button>
+        </form>
+        <p class="lead mt-4" id="next" hidden><a href="/book">View Books <i class="fa fa-eye fa-lg" aria-hidden="true"></i></a></p>
+        <p class="lead mt-4"><a href="/">Home <i class="fa fa-home fa-lg" aria-hidden="true"></i></a></p>
+      </div>
+    </div>
+  </div>      
+
