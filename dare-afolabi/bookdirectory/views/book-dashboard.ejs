@@ -1,0 +1,43 @@
+<p class="lead mt-4"><a href="/">Back To Home <i class="fa fa-home fa-lg" aria-hidden="true"></i></a></p>
+<h1 class="mt-4">Books</h1>
+<p class="lead mt-4"><a href="/book/upload">Upload A Book <i class="fa fa-book fa-lg" aria-hidden="true"></i></a></p>
+
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <p class="h1 text-center">List of Books</p>
+            <table class="table table-bordered table-dark">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Isbn</th>
+                    <th scope="col">Publisher</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Year</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <% var i = 0; %>
+                    <% if (books) { %>
+                        <% books.forEach(function(book) {%>
+                            <% i += 1; %>
+                            <tr>
+                                <th scope="row"><%= i %></th>
+                                <td><%= book.title %></td>
+                                <td><%= book.author %></td>
+                                <td><%= book.isbn %></td>
+                                <td><%= book.publisher %></td>
+                                <td><%= book.category %></td>
+                                <td><%= book.year %></td>
+                            </tr>
+                        <% }) %>
+                    <% } %> 
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
