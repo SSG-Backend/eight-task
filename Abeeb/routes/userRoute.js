@@ -1,66 +1,90 @@
 // Require modules
 const express = require("express");
+// const passport = require("passport");
 const bcrypt = require("bcryptjs");
-const validationErrors = require("express-validator");
 
+// User model
 const User = require("../models/userModel");
 
 const router = express.Router();
 
-// signup form
-router.get("/register", (req, res) => {
-  res.render("register");
+// Login Page
+router.get("/login", (req, res) => {
+  res.status(200).render("login");
 });
 
-// signup functionality
+// Register Page
+router.get("/register", (req, res) => {
+  res.status(200).render("register");
+});
+
+// Register function
 router.post("/register", (req, res) => {
-  const firstname = req.body.firstname;
-  const lastname = req.body.lastname;
-  const email = req.body.email;
-  const password = req.body.password;
-  const confirmpassword = req.body.confirmpassword;
+  const { name, email, password } = req.body;
 
-  let errors = req.validationErrors();
+  let errors = [];
 
-  if (errors) {
+  // Require all fields
+  if (!name || !email || !password) {
+    errors.push({ msg: "All fields are required" });
+  }
+
+  // Check if password matches
+  // if (password !== password2) {
+  //   errors.push({ msg: "Passwords do not match" });
+  // }
+
+  // Password length
+  if (password.length < 6) {
+    errors.push({ msg: "Password should be at least 6 characters" });
+  }
+
+  if (errors.length > 0) {
     res.render("register", {
       errors,
-    });
-  } else {
-    let newUser = new User({
-      firstname,
-      lastname,
+      name,
       email,
       password,
     });
-
-    bcrypt.getSalt(10, function (err, salt) {
-      bcrypt.hash(newUser.password, salt, function (err, hash) {
-        if (error) {
-          console.log(err);
-        }
-        newUser.password = hash;
-        newUser.save(function (err) {
-          if (error) {
-            console.log(err);
-            return;
-          } else {
-            req.flash("success", "Registration successful. You can log in");
-            res.redirect("/user/login");
-          }
+  } else {
+    // find user by email
+    User.findOne({ email }).then((user) => {
+      // user found
+      if (user) {
+        errors.push({ msg: "Email already registered." });
+        res.render("register", {
+          errors,
+          name,
+          email,
+          password,
         });
-      });
+      } else {
+        const newUser = new User({
+          name,
+          email,
+          password,
+        });
+
+        // Hash Password
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err;
+            newUser.password = hash;
+            newUser
+              .save()
+              .then((user) => {
+                req.flash(
+                  "success_msg",
+                  "You are now registered and can now log in"
+                );
+                res.redirect("/users/login");
+              })
+              .catch((err) => console.log(err));
+          });
+        });
+      }
     });
   }
 });
 
-router.get("/login", (req, res) => {
-  res.render("login");
-});
-
-router.post("/login", (req, res) => {
-  //
-});
-
-// Export module
 module.exports = router;

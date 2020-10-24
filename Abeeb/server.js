@@ -1,23 +1,32 @@
 // Require modules
 const express = require("express");
+const expressLayouts = require("express-ejs-layouts");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
+const flash = require("connect-flash");
+const session = require("express-session");
 
 const bookRouter = require("./routes/bookRoute");
+const homeRouter = require("./routes/homeRoute");
 const userRouter = require("./routes/userRoute");
 
-// Execute express
-const app = express();
+process.on("uncaughtException", (err) => {
+  console.log(err.name, err.message);
+  console.log("UNCAUGHT EXCEPTION! 💥️ Shutting down application..........");
+  process.exit(1);
+});
 
-// Read config file
+const app = express();
 dotenv.config({ path: "./config.env" });
 
+// Replace the DB password
 const DB = process.env.DATABASE.replace(
   "<password>",
   process.env.DATABASE_PASSWORD
 );
 
+// Connect to the DB
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
@@ -25,40 +34,51 @@ mongoose
     useFindAndModify: false,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("DB connection successful"));
+  .then(() => console.log("DB connection successful"))
+  .catch((err) => console.log(err));
 
-// Middlewares
-app.use(express.json());
-app.use(express.static(`${__dirname}/views`));
+app.use(expressLayouts);
 app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: false }));
+// Express session
+app.use(
+  session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  next();
+});
+
+app.use(express.static(`${__dirname}/views`));
 app.use(morgan("dev"));
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
 
-// route middleware
+// Routes
 app.use("/api/v1/books", bookRouter);
-app.use("/user", userRouter);
+app.use("/", homeRouter);
+app.use("/users", userRouter);
 
-// Home route
-app.get("/", (req, res) => {
-  res.render("index", {
-    title: "Welcome to BookStore",
-  });
-});
+// app.get("/all-books", (req, res) => {
+//   res.render("allbooks", {
+//     title: "Available books in store",
+//   });
+// });
 
-app.get("/register", (req, res) => {
-  res.render("register");
-});
-
-app.get("/all-books", (req, res) => {
-  res.render("allbooks");
-});
-
-app.get("/add-book", (req, res) => {
-  res.render("addbook");
-});
+// app.get("/add-book", (req, res) => {
+//   res.render("addbook", {
+//     title: "All Books",
+//   });
+// });
 
 // All possible middleware error
 app.all("*", (req, res, next) => {
@@ -68,3 +88,11 @@ app.all("*", (req, res, next) => {
 // start server
 const port = 5000;
 app.listen(port, () => console.log(`App running on port ${port}`));
+
+process.on("unhandledRejection", (err) => {
+  console.log(err.name, err.message);
+  console.log("UNHANDLER REJECTION! 💥️ Shutting down application..........");
+  server.close(() => {
+    process.exit(1);
+  });
+});
