@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const dotenv = require("dotenv");
 const flash = require("connect-flash");
 const session = require("express-session");
+const passport = require("passport");
 
 const bookRouter = require("./routes/bookRoute");
 const homeRouter = require("./routes/homeRoute");
@@ -19,6 +20,7 @@ process.on("uncaughtException", (err) => {
 
 const app = express();
 dotenv.config({ path: "./config.env" });
+require("./passportConfig/passport")(passport);
 
 // Replace the DB password
 const DB = process.env.DATABASE.replace(
@@ -49,10 +51,15 @@ app.use(
   })
 );
 
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(flash());
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
   next();
 });
 
@@ -67,18 +74,6 @@ app.use((req, res, next) => {
 app.use("/api/v1/books", bookRouter);
 app.use("/", homeRouter);
 app.use("/users", userRouter);
-
-// app.get("/all-books", (req, res) => {
-//   res.render("allbooks", {
-//     title: "Available books in store",
-//   });
-// });
-
-// app.get("/add-book", (req, res) => {
-//   res.render("addbook", {
-//     title: "All Books",
-//   });
-// });
 
 // All possible middleware error
 app.all("*", (req, res, next) => {

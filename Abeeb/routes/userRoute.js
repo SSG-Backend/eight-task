@@ -1,7 +1,7 @@
 // Require modules
 const express = require("express");
-// const passport = require("passport");
 const bcrypt = require("bcryptjs");
+const passport = require("passport");
 
 // User model
 const User = require("../models/userModel");
@@ -85,6 +85,22 @@ router.post("/register", (req, res) => {
       }
     });
   }
+});
+
+// Login function
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", {
+    successRedirect: "/dashboard",
+    failureRedirect: "login",
+    failureFlash: true,
+  })(req, res, next);
+});
+
+// Logout function
+router.get("/logout", (req, res) => {
+  req.logout();
+  req.flash("success_msg", "You are now logged out.");
+  res.redirect("/users/login");
 });
 
 module.exports = router;
