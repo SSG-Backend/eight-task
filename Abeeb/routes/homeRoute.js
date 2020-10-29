@@ -1,5 +1,6 @@
 const express = require("express");
 const { ensureAuthenticated } = require("../passportConfig/auth");
+
 const router = express.Router();
 
 // Home

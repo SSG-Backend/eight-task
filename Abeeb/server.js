@@ -7,6 +7,9 @@ const dotenv = require("dotenv");
 const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require("passport");
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+const sizeOf = require('image-size');
 
 const bookRouter = require("./routes/bookRoute");
 const homeRouter = require("./routes/homeRoute");
@@ -74,6 +77,24 @@ app.use((req, res, next) => {
 app.use("/api/v1/books", bookRouter);
 app.use("/", homeRouter);
 app.use("/users", userRouter);
+
+// Upload book
+app.post('/upload', upload.single('file'), (req, res) => {
+  if(!req.file.mimetype.startsWith('image/')) {
+    return res.status(422).json({
+      error: 'The uploaded file is not an image',
+    });
+  }
+
+  const dimensions = sizeOf(req.file.path);
+  if (dimensions.width < 640 || dimensions.height < 480) {
+    return res.status(422).json({
+      error: 'The image must be at least 640 x 480px',
+    });
+  }
+
+  return res.status(200).send(req.file);
+});
 
 // All possible middleware error
 app.all("*", (req, res, next) => {

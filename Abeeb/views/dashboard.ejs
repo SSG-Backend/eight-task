@@ -1,18 +1,13 @@
 <h1 class="mt-4"><%= title %></h1>
 <p class="lead mb-3">Welcome <%= user %></p>
+<a href="/users/logout" class="btn btn-danger">Logout</a>
 
 <div class="row mt-4">
   <div class="col-sm-12 col-md-6">
-    <ul class="list-group">
-      <li class="list-group-item">
-        <a href="/books">All Books</a>
-      </li>
-      <li class="list-group-item">
-        <a href="/books/add">Add Books</a>
-      </li>
-      <li class="list-group-item"><a href="/users/logout">Logout</a></li>
-    </ul>
+    <form action="/uploads" method="POST" id="upload-widget" class="dropzone">
+      <div class="fallback">
+        <input type="file" name="file">
+      </div>
+    </form>
   </div>
 </div>
-
-<!-- List All books -->
