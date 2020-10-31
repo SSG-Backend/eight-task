@@ -1,0 +1,38 @@
+[
+  {
+    "id": 0,
+    "title": "Intoduction to Computer Programming",
+    "publisher": "Bill Gate",
+    "year": "2010"
+  },
+  {
+    "id": 1,
+    "title": "Data Structure and Algorithm",
+    "publisher": "Edwin Miller",
+    "year": "2014"
+  },
+  {
+    "id": 2,
+    "title": "Linux for All",
+    "publisher": "Linus Torvalds",
+    "year": "2009"
+  },
+  {
+    "id": 3,
+    "title": "Backend Development",
+    "publisher": "Olawale Codes",
+    "year": "2020"
+  },
+  {
+    "id": 4,
+    "title": "Frontend Development",
+    "publisher": "Popoola Emmanuel",
+    "year": "2018"
+  },
+  {
+    "id": 5,
+    "title": "Full-Stack Development",
+    "publisher": "Okanlawon Emmanuel",
+    "year": "2019"
+  }
+]
